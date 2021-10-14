@@ -1,18 +1,24 @@
+require_relative 'view'
+
 class GameOfLife
   def initialize(grid)
     @grid = grid
+    @view = View.new
   end
 
   def run
+    puts "========="
     loop do
+      @view.draw_frame(@grid)
+      sleep(1)
+      puts "========="
+
       @grid.cells.each do |cell|
-        cell.will_live?
+        cell.assess_future_state
+      end
+      @grid.cells.each do |cell|
         cell.become_next_state
       end
-
-      # some printed output here to view the game graphically
-
-      # sleep(0.2) so that mortals can follow the game, even if they are not members of the Binar race (ST)
     end
   end
 end
