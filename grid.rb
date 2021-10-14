@@ -11,6 +11,15 @@ class Grid
     create_cells
   end
 
+  def row_length
+    @rows.first.length
+  end
+
+
+  def column_length
+    @columns.first.length
+  end
+
   def create_cells
     @columns.times do |y|
       @rows.times do |x|

@@ -19,31 +19,17 @@ class Cell
 
   def neighbouring_cells
     neighbours = []
-    # Check in 8 directions
-    if valid_neighbour?(@y_position - 1, @x_position - 1)
-      neighbours << @grid.cells_in_grid[@y_position - 1][@x_position - 1]
+
+    [-1, 0, 1].each do |y_diff|
+      next if (@y_position + y_diff).negative? || (@y_position + y_diff) > @grid.columns
+
+      [-1, 0, 1].each do |x_diff|
+        next if (@x_position + x_diff).negative? || (@x_position + x_diff) > @grid.rows || @grid.cells_in_grid[@y_position + y_diff][@x_position + x_diff] == self
+
+        neighbours << @grid.cells_in_grid[@y_position + y_diff][@x_position + x_diff]
+      end
     end
-    if valid_neighbour?(@y_position - 1, @x_position)
-      neighbours << @grid.cells_in_grid[@y_position - 1][@x_position]
-    end
-    if valid_neighbour?(@y_position - 1, @x_position + 1)
-      neighbours << @grid.cells_in_grid[@y_position - 1][@x_position + 1]
-    end
-    if valid_neighbour?(@y_position, @x_position - 1)
-      neighbours << @grid.cells_in_grid[@y_position][@x_position - 1]
-    end
-    if valid_neighbour?(@y_position, @x_position + 1)
-      neighbours << @grid.cells_in_grid[@y_position][@x_position + 1]
-    end
-    if valid_neighbour?(@y_position + 1, @x_position - 1)
-      neighbours << @grid.cells_in_grid[@y_position + 1][@x_position - 1]
-    end
-    if valid_neighbour?(@y_position + 1, @x_position)
-      neighbours << @grid.cells_in_grid[@y_position + 1][@x_position]
-    end
-    if valid_neighbour?(@y_position + 1, @x_position + 1)
-      neighbours << @grid.cells_in_grid[@y_position + 1][@x_position + 1]
-    end
+
     return neighbours
   end
 
@@ -56,19 +42,14 @@ class Cell
 
   def assess_future_state
     live_neighbours = self.live_neighbours_count
-    puts "SELFCell Y:#{@y_position} X:#{@x_position}"
-    neighbouring_cells.each do |cell|
-      puts "NeighbourCell Y:#{cell.y_position} X:#{cell.x_position}"
-    end
-    puts "-----"
-    # alive cell
+
     if self.alive?
       if live_neighbours < 2 || live_neighbours > 3
         @will_live = false
       else
         @will_live = true
       end
-    else # dead cell
+    else
       if live_neighbours == 3
         @will_live = true
       else
