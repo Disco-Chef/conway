@@ -3,6 +3,6 @@ require_relative 'game_of_life'
 
 grid = Grid.new(2, 2)
 
-game = GameOfLife.new(grid)
+# game = GameOfLife.new(grid)
 
-game.run
+# game.run

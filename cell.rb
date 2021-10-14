@@ -9,28 +9,28 @@ class Cell
     @grid = grid
   end
 
+  def neighbouring_cells
+    neighbours = []
+    [-1, 0, 1].each do |y_diff|
+      next if (@y_position + y_diff).negative? || (@y_position + y_diff) > @grid.columns
+
+      [-1, 0, 1].each do |x_diff|
+        next if (@x_position + x_diff).negative? || (@x_position + x_diff) > @grid.rows || @grid.cells_in_grid[@y_position + y_diff][@x_position + x_diff] == self
+        neighbour_cell = @grid.cells_in_grid[@y_position + y_diff][@x_position + x_diff]
+        # puts "Y:#{neighbour_cell.y_position} X#{neighbour_cell.x_position}"
+        neighbours << neighbour_cell
+      end
+    end
+
+    return neighbours
+  end
+
   def alive?
     @alive
   end
 
   def live_neighbours_count
     neighbouring_cells.count { |cell| cell.alive? == true }
-  end
-
-  def neighbouring_cells
-    neighbours = []
-
-    [-1, 0, 1].each do |y_diff|
-      next if (@y_position + y_diff).negative? || (@y_position + y_diff) > @grid.columns
-
-      [-1, 0, 1].each do |x_diff|
-        next if (@x_position + x_diff).negative? || (@x_position + x_diff) > @grid.rows || @grid.cells_in_grid[@y_position + y_diff][@x_position + x_diff] == self
-
-        neighbours << @grid.cells_in_grid[@y_position + y_diff][@x_position + x_diff]
-      end
-    end
-
-    return neighbours
   end
 
   def valid_neighbour?(neighbour_y, neighbour_x)
@@ -50,11 +50,7 @@ class Cell
         @will_live = true
       end
     else
-      if live_neighbours == 3
-        @will_live = true
-      else
-        @will_live = false
-      end
+      @will_live = live_neighbours == 3
     end
   end
 

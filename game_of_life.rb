@@ -13,12 +13,24 @@ class GameOfLife
       sleep(1)
       puts "========="
 
-      @grid.cells.each do |cell|
-        cell.assess_future_state
+      @grid.cells_in_grid.each do |row|
+        row.each do |cell|
+          cell.assess_future_state
+        end
       end
-      @grid.cells.each do |cell|
-        cell.become_next_state
+
+      @grid.cells_in_grid.each do |row|
+        row.each do |cell|
+          cell.become_next_state
+        end
       end
+      # @grid.cells.each do |cell|
+      #   cell.assess_future_state
+      # end
+
+      # @grid.cells.each do |cell|
+      #   cell.become_next_state
+      # end
     end
   end
 end
