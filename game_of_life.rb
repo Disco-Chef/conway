@@ -7,30 +7,19 @@ class GameOfLife
   end
 
   def run
-    puts "========="
+    print(`clear`)
     loop do
       @view.draw_frame(@grid)
-      sleep(1)
-      puts "========="
+      sleep(0.5)
+      print(`clear`)
 
       @grid.cells_in_grid.each do |row|
-        row.each do |cell|
-          cell.assess_future_state
-        end
+        row.each(&:assess_future_state)
       end
 
       @grid.cells_in_grid.each do |row|
-        row.each do |cell|
-          cell.become_next_state
-        end
+        row.each(&:become_next_state)
       end
-      # @grid.cells.each do |cell|
-      #   cell.assess_future_state
-      # end
-
-      # @grid.cells.each do |cell|
-      #   cell.become_next_state
-      # end
     end
   end
 end

@@ -12,15 +12,6 @@ class View
         counter += 1
       end
     end
-
-    # grid.cells.each do |cell|
-    #   if counter%limit != 0
-    #     print visual_cell(cell)
-    #   else
-    #     puts visual_cell(cell)
-    #   end
-    #   counter += 1
-    # end
   end
 
   def visual_cell(cell)
