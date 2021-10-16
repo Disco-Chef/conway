@@ -10,6 +10,7 @@ class Cell
   end
 
   def neighbouring_cells
+    # needs refactoring. should use newer valid_neighbour
     neighbours = []
     [-1, 0, 1].each do |y_diff|
       next if (@y_position + y_diff).negative? || (@y_position + y_diff) >= @grid.columns

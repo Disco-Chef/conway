@@ -10,7 +10,7 @@ class GameOfLife
     print(`clear`)
     loop do
       @view.draw_frame(@grid)
-      sleep(0.5)
+      sleep(0.25)
       print(`clear`)
 
       @grid.cells_in_grid.each do |row|
