@@ -13,11 +13,12 @@ class Cell
     # needs refactoring. should use newer valid_neighbour
     neighbours = []
     [-1, 0, 1].each do |y_diff|
-      next if (@y_position + y_diff).negative? || (@y_position + y_diff) >= @grid.columns
-
+      next if (@y_position + y_diff).negative? || (@y_position + y_diff) >= @grid.rows
+      # puts "Y: #{@y_position + y_diff}"
       [-1, 0, 1].each do |x_diff|
-        next if (@x_position + x_diff).negative? || (@x_position + x_diff) >= @grid.rows || @grid.cells_in_grid[@y_position + y_diff][@x_position + x_diff] == self
-
+        next if (@x_position + x_diff).negative? || (@x_position + x_diff) >= @grid.columns || @grid.cells_in_grid[@y_position + y_diff][@x_position + x_diff] == self
+        # puts "Y#{@y_position + y_diff}"
+        # puts "X#{@x_position + x_diff}"
         neighbour_cell = @grid.cells_in_grid[@y_position + y_diff][@x_position + x_diff]
         neighbours << neighbour_cell
       end
