@@ -10,20 +10,18 @@ class Cell
   end
 
   def neighbouring_cells
-    # needs refactoring. should use newer valid_neighbour
     neighbours = []
     [-1, 0, 1].each do |y_diff|
-      next if (@y_position + y_diff).negative? || (@y_position + y_diff) >= @grid.rows
-      # puts "Y: #{@y_position + y_diff}"
+      next if invalid_y_position?(@y_position + y_diff)
+
       [-1, 0, 1].each do |x_diff|
-        next if (@x_position + x_diff).negative? || (@x_position + x_diff) >= @grid.columns || @grid.cells_in_grid[@y_position + y_diff][@x_position + x_diff] == self
-        # puts "Y#{@y_position + y_diff}"
-        # puts "X#{@x_position + x_diff}"
+        next if invalid_x_position?(@x_position + x_diff) ||
+                neighbour_is_self?(@y_position + y_diff, @x_position + x_diff)
+
         neighbour_cell = @grid.cells_in_grid[@y_position + y_diff][@x_position + x_diff]
         neighbours << neighbour_cell
       end
     end
-
     neighbours
   end
 
@@ -31,16 +29,21 @@ class Cell
     @alive
   end
 
+  def invalid_y_position?(neighbour_y)
+    neighbour_y.negative? || neighbour_y >= @grid.rows
+  end
+
+  def invalid_x_position?(neighbour_x)
+    neighbour_x.negative? || neighbour_x >= @grid.columns
+  end
+
+  def neighbour_is_self?(neighbour_y, neighbour_x)
+    @grid.cells_in_grid[neighbour_y][neighbour_x] == self
+  end
+
   def live_neighbours_count
     neighbouring_cells.count { |cell| cell.alive? == true }
   end
-
-  # def valid_neighbour?(neighbour_y, neighbour_x)
-  #   !neighbour_y.negative? &&
-  #     !neighbour_x.negative? &&
-  #     (@grid.rows - 1 <= neighbour_x) &&
-  #     (@grid.columns - 1 <= neighbour_y)
-  # end
 
   def assess_future_state
     live_neighbours = self.live_neighbours_count
