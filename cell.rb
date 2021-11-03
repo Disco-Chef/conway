@@ -42,20 +42,20 @@ class Cell
   end
 
   def live_neighbours_count
-    neighbouring_cells.count { |cell| cell.alive? == true }
+    neighbouring_cells.count(&:alive?)
   end
 
-  def assess_future_state
-    live_neighbours = self.live_neighbours_count
+  def assess_future_state!
+    live_neighbours = live_neighbours_count
 
-    if self.alive?
-      @will_live = live_neighbours < 2 || live_neighbours > 3 ? false : true
-    else
-      @will_live = live_neighbours == 3
-    end
+    @will_live = if alive?
+                   live_neighbours < 2 || live_neighbours > 3 ? false : true
+                 else
+                   live_neighbours == 3
+                 end
   end
 
-  def become_next_state
+  def become_next_state!
     @alive = @will_live
   end
 end
