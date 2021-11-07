@@ -4,11 +4,7 @@ class View
     counter = 1
     grid.cells_in_grid.each do |row|
       row.each do |cell|
-        if counter % limit != 0
-          print visual_cell(cell)
-        else
-          puts visual_cell(cell)
-        end
+        counter % limit != 0 ? print(visual_cell(cell)) : puts(visual_cell(cell))
         counter += 1
       end
     end
